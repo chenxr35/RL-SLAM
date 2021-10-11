@@ -1,0 +1,6 @@
+GlobalPlanner:
+   allow_unknown: true
+
+NavfnROS:
+   allow_unknown: true
+
