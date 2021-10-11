@@ -9,7 +9,7 @@
 <node pkg="my_turtlebot2_training" type="train_global_policy.py" name="train_global_policy" respawn="true" output="screen">
 </node>
 
-<node pkg="my_turtlebot2_training" type="End_cond5.py" name="Input_maps" respawn="true" output="screen">
+<node pkg="my_turtlebot2_training" type="End_cond.py" name="Input_maps" respawn="true" output="screen">
 </node>
 
 <!--<node pkg="nav_goal" type="nav_goal" name="nav_goal" respawn="true" output="screen">
