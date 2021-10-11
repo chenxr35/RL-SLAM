@@ -12,7 +12,7 @@ $ catkin_make
 $ echo $ROS_PACKAGE_PATH  
 
 Download this package:  
-$ git clone https://github.com/sysu18364012/RL-SLAM.git
+$ git clone https://github.com/chenxr35/RL-SLAM.git
 
 Find following packages inside the downloaded package, place them inside the /src folder in your workspace:  
 init_shutdown_world, my_turtlebot2_training, rrt_exploration_tutorials, velocity_shift  
