@@ -3,16 +3,16 @@
 <!-- AMCL -->
 <!--<include file="$(find rrt_exploration_tutorials)/launch/includes/amcl.launch"/>-->
 
-<node pkg="velocity_shift" type="velocity_shift" name="velocity_shift" required="true">
+<node pkg="velocity_shift" type="velocity_shift" name="velocity_shift" respawn="true">
 </node>
 
-<node pkg="my_turtlebot2_training" type="train_global_policy.py" name="train_global_policy" required="true" output="screen">
+<node pkg="my_turtlebot2_training" type="train_global_policy.py" name="train_global_policy" respawn="true" output="screen">
 </node>
 
-<node pkg="my_turtlebot2_training" type="End_cond.py" name="Input_maps" required="true" output="screen">
+<node pkg="my_turtlebot2_training" type="End_cond.py" name="Input_maps" respawn="true" output="screen">
 </node>
 
-<!--<node pkg="nav_goal" type="nav_goal" name="nav_goal" required="true" output="screen">
+<!--<node pkg="nav_goal" type="nav_goal" name="nav_goal" respawn="true" output="screen">
 </node>-->
 
 </launch>
