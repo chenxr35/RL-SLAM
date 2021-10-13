@@ -6,7 +6,7 @@
 <node pkg="velocity_shift" type="velocity_shift" name="velocity_shift" respawn="true">
 </node>
 
-<node pkg="my_turtlebot2_training" type="train_global_policy.py" name="train_global_policy" respawn="true" output="screen">
+<node pkg="my_turtlebot2_training" type="train_global_policy.py" name="train_global_policy" required="true" output="screen">
 </node>
 
 <node pkg="my_turtlebot2_training" type="End_cond.py" name="Input_maps" respawn="true" output="screen">
