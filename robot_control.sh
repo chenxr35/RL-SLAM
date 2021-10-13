@@ -11,4 +11,7 @@ killall nav_goal
 killall velocity_shift
 killall my_turtlebot2_training
 
-roslaunch rrt_exploration_tutorials robot_control.launch
+while true;
+do
+    roslaunch rrt_exploration_tutorials robot_control.launch
+done
