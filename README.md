@@ -4,7 +4,7 @@ A new method for robots to SLAM based on reinforce learning algorithms
 Version of development environment: Ubuntu16.04, Cuda11.0, ROS-kinetic(python2.7), conda4.10.3(python3.7)
 
 Place setup.sh inside your root folder, then run the following command:  
-$ source ~/.setup.sh
+$ source ~/setup.sh
 
 Create a workspace:  
 $ mkdir -p ~/catkin_ws/src  
@@ -40,3 +40,11 @@ $ source devel/setup.bash
 $ rosdep install openai_ros  
 After installing OpenAI ROS package, we have to add our own taskenv to the package.  
 Place turtlebot2_house.py inside the /openai_ros/openai_ros/src/openai_ros/task_envs/turtlebot2 folder.
+
+If there are any other packages not installed in your development environment, such as gym and torch, please install them by pip install.  
+Also, do not forget to install them in the python3 virtual environment.
+
+Start training:  
+Place robot_control.sh and training.sh inside your root folder, then run the following command:  
+$ source ~/robot_control.sh  
+$ source ~/training.sh
