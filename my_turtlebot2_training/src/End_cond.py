@@ -164,26 +164,28 @@ class EndCond:
 			self.__endsearch_globalfrontier.append(score)
 			self.__endsearch_localfrontier.append(score)
 
-			print(score)
+			print("frotiers:", score)
 
 			tmp_end_cond = []
 			tmp_end_cond.append(score)
 
 			# End of search
-			print("self.__endsearch_globalfrontier:", self.__endsearch_globalfrontier)
-			print("self.__endsearch_localfrontier:", self.__endsearch_localfrontier)
+			# print("self.__endsearch_globalfrontier:", self.__endsearch_globalfrontier)
+			# print("self.__endsearch_localfrontier:", self.__endsearch_localfrontier)
 
-			if not score:
-				rospy.loginfo("All map has been detected, wait for command!")
-				self.__end_globalpub.publish("True")
-				
+			"""
 			elif self.__last_state != score and self.end_localmap(self.__endsearch_localfrontier):
 				rospy.loginfo("Local map has been detected, wait for next exploration!")
 				self.__end_localpub.publish("True")
+			"""
+
+			if self.end_fbe(self.__endsearch_globalfrontier, tmp_end_cond):
+				rospy.loginfo("All map has been detected, wait for command!")
+				self.__end_globalpub.publish("True")
 			'''
 			else:
 				self.__end_globalpub.publish("False")
-				self.__end_localpub.publish("False")
+				# self.__end_localpub.publish("False")
 				rospy.loginfo("Not an end")
 			'''
 			self.__getgoal = False
@@ -201,17 +203,13 @@ class EndCond:
 	def end_fbe(self, dic_frontier, new_frontier):
 
 		# print(np.sum(np.array(dic_frontier)==dic_frontier[-1]))
-		if len(dic_frontier) == 0:
-			rospy.loginfo("All map has been detected, wait for command!")
-			return "globalend_true"
+		if len(dic_frontier) <= 2 and len(dic_frontier[-1]) == 0:
+			# rospy.loginfo("All map has been detected, wait for command!")
+			return True
 
-		elif len(dic_frontier) != 0 and new_frontier == 0:
-			rospy.loginfo("All map has been detected, wait for command!")
-			return "globalend_true"
-
-		elif len(dic_frontier) >= 3 and dic_frontier[-1] == dic_frontier[-2] and np.sum(np.array(dic_frontier)==dic_frontier[-1])>=6:
-			rospy.loginfo("All map has been detected, wait for command!")
-			return "globalend_true"
+		elif len(dic_frontier) >= 3 and len(dic_frontier[-1]) == len(dic_frontier[-2]) == 0:
+			# rospy.loginfo("All map has been detected, wait for command!")
+			return True
 			
 
 	def end_localmap(self, dic_frontier):
@@ -254,7 +252,7 @@ class EndCond:
 
 	def RobotSize(self):
 		
-		rospy.Subscriber("/move_base/global_costmap/footprint", PolygonStamped, Get_RobotSize)
+		rospy.Subscriber("/robot_1/move_base/global_costmap/footprint", PolygonStamped, Get_RobotSize)
 
 
 	def Get_RobotSize(self, data):
@@ -283,4 +281,3 @@ if __name__ == '__main__':
 		rospy.spin()
 	except KeyboardInterrupt:
 		print("over!")
-
