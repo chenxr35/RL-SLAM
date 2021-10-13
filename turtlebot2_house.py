@@ -81,6 +81,7 @@ class TurtleBot2HouseEnv(gym.Env):
         self.bumper = -1
         self.local_end = False
         self.global_end = False
+        self.search_signal = False
 
     def init_pose(self):
         """
@@ -124,6 +125,7 @@ class TurtleBot2HouseEnv(gym.Env):
         # self.bump_times = self.bump_times + 1
 
     def _map_data_callback(self, data):
+        self.start_signal = True
         map_exist = self.get_map_exist()
         if map_exist == False:
             height = data.info.height
@@ -147,8 +149,9 @@ class TurtleBot2HouseEnv(gym.Env):
     def _path_callback(self, data):
         path_exist = self.get_path_exist()
         path_error = self.get_path_error()
-        if path_exist == False and len(data.header.frame_id) != 0:
-            '''
+        search_signal = self.get_search_signal()
+        if path_exist == False and search_signal == True and len(data.header.frame_id) != 0:
+            rospy.loginfo("Getting path")
             self.path_x = []
             self.path_y = []
             temp_x, temp_y = self.get_temp_goal()
@@ -156,15 +159,15 @@ class TurtleBot2HouseEnv(gym.Env):
             y = 0
             id = 0
             while int(abs(x - temp_x)) > 2 or int(abs(y - temp_y)) > 2:
-                print("x, y:", x, " ", y)
-                print("temp_x, temp_y:", temp_x, " ", temp_y)
+                # print("x, y:", x, " ", y)
+                # print("temp_x, temp_y:", temp_x, " ", temp_y)
                 x = data.poses[id].pose.position.x
                 y = data.poses[id].pose.position.y
                 self.path_x.append(x)
                 self.path_y.append(y)
                 id = id + 1
-            '''
             self.path_exist = True
+            self.search_signal = False
         elif path_error == False and len(data.header.frame_id) == 0:
             pose_1 = self.get_pose()
             pose_2 = [0, 0, 0]
@@ -241,6 +244,9 @@ class TurtleBot2HouseEnv(gym.Env):
 
     def get_temp_goal(self):
         return self.temp_x, self.temp_y
+
+    def get_search_signal(self):
+        return self.search_signal
 
     def get_state(self):
         observation = self._get_observations()
@@ -334,6 +340,8 @@ class TurtleBot2HouseEnv(gym.Env):
                 global_map[0][0][i+H_d][j+W_d] = 1
                 global_map[0][1][i+H_d][j+W_d] = 1
         rospy.logdebug("END Get Current Observations ==>")
+        # self.search_signal = True
+        # rospy.logdebug("Allow to search path within free space")
         return global_map
 
     def reset(self):
@@ -347,6 +355,7 @@ class TurtleBot2HouseEnv(gym.Env):
          self.bump_times = 0
          self.bumper = -1
          self.local_end = False
+         self.search_signal = False
          # self.spin()
 
     def global_reset(self):
