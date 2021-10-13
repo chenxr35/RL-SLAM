@@ -24,4 +24,8 @@ And then compile using catkin_make.
 Create a python3 virtual environment named py37:  
 $ conda create -n py37 python=3.7
 
-
+Since we have to use models in others' project, please donwload following packages and place them in your workspace:  
+$ cd ~/catkin_ws/src  
+$ git clone https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git  
+$ cd ~/catkin_ws  
+$ catkin_make
