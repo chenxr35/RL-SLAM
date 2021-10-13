@@ -3,8 +3,8 @@ A new method for robots to SLAM based on reinforce learning algorithms
 
 Version of development environment: Ubuntu16.04, Cuda11.0, ROS-kinetic(python2.7), conda4.10.3(python3.7)
 
-Place setup.sh inside your root folder, then run the following command:
-source ~/.setup.sh
+Place setup.sh inside your root folder, then run the following command:  
+$ source ~/.setup.sh
 
 Create a workspace:  
 $ mkdir -p ~/catkin_ws/src  
