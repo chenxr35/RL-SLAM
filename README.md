@@ -27,5 +27,6 @@ $ conda create -n py37 python=3.7
 Since we have to use models in others' project, please donwload following packages and place them in your workspace:  
 $ cd ~/catkin_ws/src  
 $ git clone https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git  
+$ git clone https://github.com/aws-robotics/aws-robomaker-small-house-world.git  
 $ cd ~/catkin_ws  
 $ catkin_make
