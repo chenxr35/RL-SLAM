@@ -602,12 +602,18 @@ if __name__ == '__main__':
         count_checkpoints = ckpt_id + 1
         print(f"Resuming checkpoint {last_ckpt} at {count_steps} frames")
 
+    # whether the new env is loaded
+    # while env.get_start_signal() == False:
+        # rospy.loginfo("No map is received")
+        # continue
+    # rospy.loginfo("New env is loaded")
+
     for ep_num in range(num_episodes_start, NUM_GLOBAL_UPDATES):
 
         # whether the new env is loaded
-        while env.get_start_signal() == False:
-            continue
-        rospy.loginfo("New env is loaded")
+        # while env.get_start_signal() == False:
+            # continue
+        # rospy.loginfo("New env is loaded")
 
         # set the env
         env.reset()
@@ -687,18 +693,24 @@ if __name__ == '__main__':
             goal_y = goal[1]
             rospy.loginfo("Selected goal:"+str(goal_x)+str(' ')+str(goal_y))
             
+            # if you do not need a goal within free space
+            
             path_goal = torch.zeros(1, 2)
             path_goal[0][0] = goal_x
             path_goal[0][1] = goal_y
             path_goal = convert_world2map(path_goal, (M, M), s)
             x_coor = int(path_goal[0][0].item())
             y_coor = int(path_goal[0][1].item())
+            
+
+            # if you need a goal within free space
             '''
             while env.get_path_exist() == False:
                 env._set_goal(goal_x, goal_y, 1000)
             path_x, path_y = env.get_path()
             rospy.loginfo("Path is loaded")
             length = len(path_x)
+            print("path length:", length)
             path_goal = torch.zeros(1, 2)
             x_coor = 0
             y_coor = 0
@@ -708,8 +720,8 @@ if __name__ == '__main__':
                 path_goal = convert_world2map(path_goal, (M, M), s)
                 x_coor = int(path_goal[0][0].item())
                 y_coor = int(path_goal[0][1].item())
-                print("world_coor:", x_coor, " ", y_coor, " ", i)
-                print("global map:", global_map[0][0][x_coor][y_coor])
+                # print("world_coor:", x_coor, " ", y_coor, " ", i)
+                # print("global map:", global_map[0][0][x_coor][y_coor])
                 if global_map[0][0][x_coor][y_coor].item() == 0:
                     goal_x = path_x[length-1-i]
                     goal_y = path_y[length-1-i]
@@ -753,12 +765,18 @@ if __name__ == '__main__':
             pose_y = 0
             path_error = False
             bumper = -1
-            local_end = False 
-            while int(abs(pose_x - x_coor)) > 3 or int(abs(pose_y - y_coor)) > 3:
+            local_end = False
+            times = 0
+            while int(abs(pose_x - x_coor)) > 10 or int(abs(pose_y - y_coor)) > 10:
+                 if times > 10:
+                     rospy.loginfo("Search for too long time, give up current goal")
+                     break
+                 '''
                  local_end = env.get_local_end()
                  if local_end == True:
                      rospy.loginfo("Finish searching local area")
                      break
+                 '''
                  path_error = env.get_path_error()
                  if path_error == True:
                      rospy.loginfo("PATH ERROR")
@@ -786,22 +804,28 @@ if __name__ == '__main__':
                      rospy.loginfo("BUMP RECOVERY")
                      env.bumper_reset()
                      time.sleep(3)
+                 times = times + 1
                  # bump_times = env.get_bump_times()
                  # print("Bump times:", bump_times)
                  # if bump_times >= 5:
                      # print("Break bump times:", bump_times)
                      # break
-            env.reset()
-            rospy.loginfo("finish env action, reset the env")
 
             env._set_goal(goal_x, goal_y, 1000) # hold the robot
             rospy.loginfo("Hold the robot")
+
+            env.reset()
+            rospy.loginfo("finish env action, reset the env")
 
             global_end = env.get_global_end()
             if global_end == True:
                rospy.loginfo("Finish searching global area")
                env.global_reset()
-               break
+               env.shut_down()
+               while env.get_start_signal() == False:
+                   continue
+               rospy.loginfo("New env is loaded")
+               # break
 
             # if path_error == True:
                 # rospy.loginfo("Close the env")
@@ -915,9 +939,13 @@ if __name__ == '__main__':
                     ground_truth_states[k].fill_(0)
                 ground_truth_states["visible_occupancy"].copy_(observations["global_map"])
                 ground_truth_states["pose"].copy_(observations["global_pose"])
+                env._shut_down()
+                while env.get_start_signal() == False:
+                    continue
+                rospy.loginfo("New env is loaded")
 
             count_steps += num_envs
 
-        env._shut_down()
+        # env._shut_down()
 
     env.close()
