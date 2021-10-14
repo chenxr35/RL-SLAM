@@ -48,3 +48,8 @@ Start training:
 Place robot_control.sh and training.sh inside your root folder, then run the following command:  
 $ source ~/robot_control.sh  
 $ source ~/training.sh
+
+Tips:  
+1. If you wish to change your SLAM algorithms, please edit move_baseSafe.launch inside the /rrt_exploration_tutorials/launch/includes folder  
+2. If you wish to change your Navigation algorithms, please edit base_global_planner_params.yaml and base_local_planner_params.yaml inside the /rrt_exploration_tutorials/param folder  
+3. If you wish to change some params of your robot, please edit kobuki.urdf.xacro and kobuki_gazebo.urdf.xacro inside the /rrt_exploration_tutorials/launch/includes/urdf folder  
