@@ -340,8 +340,8 @@ class TurtleBot2HouseEnv(gym.Env):
                 global_map[0][0][i+H_d][j+W_d] = 1
                 global_map[0][1][i+H_d][j+W_d] = 1
         rospy.logdebug("END Get Current Observations ==>")
-        # self.search_signal = True
-        # rospy.logdebug("Allow to search path within free space")
+        self.search_signal = True
+        rospy.logdebug("Allow to search path within free space")
         return global_map
 
     def reset(self):
