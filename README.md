@@ -20,6 +20,7 @@ $ git clone https://github.com/chenxr35/RL-SLAM.git
 Find following packages inside the downloaded package, place them inside the /src folder in your workspace:  
 init_shutdown_world, my_turtlebot2_training, rrt_exploration_tutorials, velocity_shift  
 And then compile using catkin_make.  
+Note: codes inside my_turtlebot2_training package is written in python, do not forget to make them executable programs by chmod +x
 
 Create a python3 virtual environment named py37:  
 $ conda create -n py37 python=3.7
