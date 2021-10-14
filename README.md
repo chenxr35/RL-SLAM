@@ -35,9 +35,9 @@ Install OpenAI ROS package:
 $ cd ~/catkin_ws/src  
 $ git clone https://github.com/edowson/openai_ros.git  
 $ cd ~/catkin_ws  
-$ catkin_make
-$ source devel/setup.bash
-$ rosdep install openai_ros  
+$ catkin_make  
+$ source devel/setup.bash  
+$ rosdep install openai_ros    
 After installing OpenAI ROS package, we have to add our own taskenv to the package.  
 Place turtlebot2_house.py inside the /openai_ros/openai_ros/src/openai_ros/task_envs/turtlebot2 folder.
 
