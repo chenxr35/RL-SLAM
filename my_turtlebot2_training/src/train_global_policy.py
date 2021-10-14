@@ -604,10 +604,10 @@ if __name__ == '__main__':
         print(f"Resuming checkpoint {last_ckpt} at {count_steps} frames")
 
     # whether the new env is loaded
-    while env.get_start_signal() == False:
+    # while env.get_start_signal() == False:
         # rospy.loginfo("No map is received")
-        continue
-    rospy.loginfo("New env is loaded")
+        # continue
+    # rospy.loginfo("New env is loaded")
 
     for ep_num in range(num_episodes_start, NUM_GLOBAL_UPDATES):
 
@@ -695,17 +695,17 @@ if __name__ == '__main__':
             rospy.loginfo("Selected goal:"+str(goal_x)+str(' ')+str(goal_y))
             
             # if you do not need a goal within free space
-            
+            '''
             path_goal = torch.zeros(1, 2)
             path_goal[0][0] = goal_x
             path_goal[0][1] = goal_y
             path_goal = convert_world2map(path_goal, (M, M), s)
             x_coor = int(path_goal[0][0].item())
             y_coor = int(path_goal[0][1].item())
-            
+            '''
 
             # if you need a goal within free space
-            '''
+            
             while env.get_path_exist() == False:
                 env._set_goal(goal_x, goal_y, 1000)
             path_x, path_y = env.get_path()
@@ -728,7 +728,7 @@ if __name__ == '__main__':
                     goal_y = path_y[length-1-i]
                     break
             rospy.loginfo("Feasible goal:"+str(goal_x)+str(' ')+str(goal_y)+str(' ')+str(x_coor)+str(' ')+str(y_coor))
-            '''
+            
             
             # Update states and compute rewards for last step
             ground_truth_states["visible_occupancy"].copy_(observations["global_map"])
@@ -768,7 +768,7 @@ if __name__ == '__main__':
             bumper = -1
             local_end = False
             times = 0
-            while int(abs(pose_x - x_coor)) > 10 or int(abs(pose_y - y_coor)) > 10:
+            while int(abs(pose_x - x_coor)) > 4 or int(abs(pose_y - y_coor)) > 4:
                  if times > 10:
                      rospy.loginfo("Search for too long time, give up current goal")
                      break
