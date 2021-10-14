@@ -210,7 +210,7 @@
 
 
  <!-- hokuyo -->
-  <!--<gazebo reference="base_laser_link">
+  <gazebo reference="base_laser_link">
    <sensor type="ray" name="head_hokuyo_sensor">
       <pose>0 0 0 0 0 0</pose>
       <visualize>true</visualize>
@@ -220,8 +220,8 @@
           <horizontal>
             <samples>720</samples>
             <resolution>1</resolution>
-            <min_angle>-1.570796</min_angle>
-            <max_angle>1.570796</max_angle>
+            <min_angle>-3.143</min_angle>
+            <max_angle>3.143</max_angle>
           </horizontal>
         </scan>
         <range>
@@ -244,10 +244,10 @@
         <frameName>base_laser_link</frameName>
       </plugin>
     </sensor>
-  </gazebo>-->
+  </gazebo>
 
 
-        <gazebo reference="base_laser_link">
+        <!--<gazebo reference="base_laser_link">
             <sensor type="ray" name="rplidar">
                 <pose>0 0 0 0 0 0</pose>
                 <visualize>true</visualize>
@@ -277,7 +277,7 @@
                     <frameName>base_laser_link</frameName>
                 </plugin>
             </sensor>
-        </gazebo>
+        </gazebo>-->
 
 
 <!-- camera -->
