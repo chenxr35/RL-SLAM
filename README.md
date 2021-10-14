@@ -49,7 +49,12 @@ Place robot_control.sh and training.sh inside your root folder, then run the fol
 $ source ~/robot_control.sh  
 $ source ~/training.sh
 
-Tips:  
+Currently, we only have limited number of training scenes, to add more scenes for training, please follow these steps:  
+1. Place your world file inside the /rrt_exploration_tutorials/launch/includes/worlds folder  
+2. Add a launch file for your world inside the /rrt_exploration_tutorials/launch folder, the content of your launch file should be as same as other launch files under this folder except in line 7 you have to change the value of the arg "world_name" to the name of your world file  
+3. Then edit the training.sh inside your root folder. I use world_array to store the remain training times of each scene and rand() to generate random numbers as the index of operations to launch a world within the loop. Please change them accordingly.
+
+Other tips:  
 1. If you wish to change your SLAM algorithms, please edit move_baseSafe.launch inside the /rrt_exploration_tutorials/launch/includes folder  
 2. If you wish to change your Navigation algorithms, please edit base_global_planner_params.yaml and base_local_planner_params.yaml inside the /rrt_exploration_tutorials/param folder  
 3. If you wish to change some params of your robot, please edit kobuki.urdf.xacro and kobuki_gazebo.urdf.xacro inside the /rrt_exploration_tutorials/launch/includes/urdf folder  
